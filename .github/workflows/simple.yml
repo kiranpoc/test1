@@ -22,6 +22,10 @@ jobs:
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
+      - name: Print Inputs
+        run: |
+         echo "Service Request = ${{ github.event.inputs.service_request }}"
+        
       - name: Get Port Token
         id: auth
         run: |
@@ -35,14 +39,14 @@ jobs:
 
           echo "TOKEN=$TOKEN" >> $GITHUB_ENV
           
-      - name: Update Service Request
-        run: |
-            curl -X PATCH \
-              https://api.getport.io/v1/blueprints/service_request/entities/create_a_new_user \
-              -H "Authorization: Bearer $TOKEN" \
-              -H "Content-Type: application/json" \
-              -d '{
-                "properties": {
-                  "status": "Approved"
-                }
-              }'
+      #- name: Update Service Request
+      #  run: |
+      #      curl -X PATCH \
+      #        https://api.getport.io/v1/blueprints/service_request/entities/create_a_new_user \
+       #       -H "Authorization: Bearer $TOKEN" \
+       #       -H "Content-Type: application/json" \
+      #        -d '{
+      #          "properties": {
+      #            "status": "Approved"
+      #          }
+      #        }'
