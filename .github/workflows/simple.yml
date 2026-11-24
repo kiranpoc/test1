@@ -38,7 +38,7 @@ jobs:
       - name: Update Service Request
         run: |
             curl -X PATCH \
-              https://api.getport.io/v1/blueprints/service_request/entities/SR-1001 \
+              https://api.getport.io/v1/blueprints/service_request/entities/create_a_new_user \
               -H "Authorization: Bearer $TOKEN" \
               -H "Content-Type: application/json" \
               -d '{
