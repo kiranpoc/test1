@@ -43,7 +43,20 @@ jobs:
             }' | jq -r '.accessToken')
 
           echo "TOKEN=$TOKEN" >> $GITHUB_ENV
-          
+
+      - name: Create Port Entity
+        run: |
+            curl -X POST \
+              https://api.getport.io/v1/blueprints/service_request/entities \
+              -H "Authorization: Bearer $TOKEN" \
+              -H "Content-Type: application/json" \
+              -d '{
+                "identifier":"sr-'"$(uuidgen)"'",
+                "title":service_request,
+                "properties":{
+                  "status":"Open"
+                }
+              }'
       #- name: Update Service Request
       #  run: |
       #      curl -X PATCH \
