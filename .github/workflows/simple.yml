@@ -25,6 +25,19 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v4
 
+      - name: Get Port Token
+        id: auth
+        run: |
+          TOKEN=$(curl -s -X POST \
+            https://api.getport.io/v1/auth/access_token \
+            -H "Content-Type: application/json" \
+            -d '{
+              "clientId":"${{ secrets.PORT_CLIENT_ID }}",
+              "clientSecret":"${{ secrets.PORT_CLIENT_SECRET }}"
+            }' | jq -r '.accessToken')
+
+          echo "TOKEN=$TOKEN" >> $GITHUB_ENV
+
       # Runs a single command using the runners shell
       - name: Run a one-line script
         run: echo Hello, world!
