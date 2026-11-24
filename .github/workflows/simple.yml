@@ -22,9 +22,6 @@ jobs:
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v4
-
       - name: Get Port Token
         id: auth
         run: |
@@ -37,13 +34,15 @@ jobs:
             }' | jq -r '.accessToken')
 
           echo "TOKEN=$TOKEN" >> $GITHUB_ENV
-
-      # Runs a single command using the runners shell
-      - name: Run a one-line script
-        run: echo Hello, world!
-
-      # Runs a set of commands using the runners shell
-      - name: Run a multi-line script
+          
+      - name: Update Service Request
         run: |
-          echo Add other actions to build,
-          echo test, and deploy your project.
+            curl -X PATCH \
+              https://api.getport.io/v1/blueprints/service_request/entities/SR-1001 \
+              -H "Authorization: Bearer $TOKEN" \
+              -H "Content-Type: application/json" \
+              -d '{
+                "properties": {
+                  "status": "Approved"
+                }
+              }'
