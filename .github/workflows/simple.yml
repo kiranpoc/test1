@@ -63,7 +63,7 @@ jobs:
               }'
       - name: Update Service Request
         run: |
-            REQ_NUM = "REQ-$(uuidgen)"
+            REQ_NUM="REQ-$(uuidgen)"
             curl -X PATCH \
               https://api.getport.io/v1/blueprints/service_request/entities/$ENTITY_ID \
               -H "Authorization: Bearer $TOKEN" \
