@@ -48,6 +48,8 @@ jobs:
         run: |
             ENTITY_ID="sr-$(uuidgen)"
             
+            echo "ENTITY_ID=$ENTITY_ID" >> $GITHUB_ENV
+            
             curl -X POST \
               https://api.getport.io/v1/blueprints/service_request/entities \
               -H "Authorization: Bearer $TOKEN" \
@@ -59,14 +61,14 @@ jobs:
                   "status":"Open"
                 }
               }'
-      #- name: Update Service Request
-      #  run: |
-      #      curl -X PATCH \
-      #        https://api.getport.io/v1/blueprints/service_request/entities/create_a_new_user \
-       #       -H "Authorization: Bearer $TOKEN" \
-       #       -H "Content-Type: application/json" \
-      #        -d '{
-      #          "properties": {
-      #            "status": "Approved"
-      #          }
-      #        }'
+      - name: Update Service Request
+        run: |
+            curl -X PATCH \
+              https://api.getport.io/v1/blueprints/service_request/entities/$ENTITY_ID \
+              -H "Authorization: Bearer $TOKEN" \
+              -H "Content-Type: application/json" \
+              -d '{
+                "properties": {
+                  "status": "Approved"
+                }
+              }'
